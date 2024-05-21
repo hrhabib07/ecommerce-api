@@ -3,13 +3,14 @@ import { productServices } from "./product.service";
 
 const createProduct = async (req: Request, res: Response) => {
     try {
-        const product = req.body;
+        const { orders: ordersData } = req.body;
         // call service function
-        const result = await productServices.createProductIntoDB(product);
+        const result = await productServices.createProductIntoDB(ordersData);
         // send response 
         res.status(200).json({
             success: true,
             message: "Order created successfully!",
+            data: result
         })
     } catch (error) {
         console.log(error);
