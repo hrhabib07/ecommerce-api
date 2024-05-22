@@ -13,7 +13,10 @@ const createProduct = async (req: Request, res: Response) => {
       data: result,
     });
   } catch (error) {
-    console.log(error);
+    res.status(500).json({
+      success: false,
+      message: "An error occurred",
+    });
   }
 };
 
@@ -36,7 +39,6 @@ const getAllProducts = async (req: Request, res: Response) => {
       data: result,
     });
   } catch (error) {
-    console.error(error);
     res.status(500).json({
       success: false,
       message: "An error occurred while fetching products.",
@@ -55,7 +57,10 @@ const getASingleProduct = async (req: Request, res: Response) => {
       data: result,
     });
   } catch (error) {
-    console.log(error);
+    res.status(500).json({
+      success: false,
+      message: "Product not found",
+    });
   }
 };
 
@@ -73,7 +78,10 @@ const updateASingleProduct = async (req: Request, res: Response) => {
       data: result,
     });
   } catch (error) {
-    console.log(error);
+    res.status(500).json({
+      success: false,
+      message: "An error occurred",
+    });
   }
 };
 
@@ -87,7 +95,10 @@ const deleteASingleProduct = async (req: Request, res: Response) => {
       data: null,
     });
   } catch (error) {
-    console.log(error);
+    res.status(500).json({
+      success: false,
+      message: "An error occurred",
+    });
   }
 };
 
