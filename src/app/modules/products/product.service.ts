@@ -23,6 +23,17 @@ const updateASingleProductInDB = async (id: string, productData: Product) => {
 const deleteASingleProductFromDB = async (id: string) => {
     const result = await ProductModel.findByIdAndDelete(id);
     return result;
+};
+
+const findAProductUsingTextFromDB = async (text: string) => {
+    const result = await ProductModel.find({
+        $or: [
+            { name: { $regex: text, $options: "i" } },
+            { description: { $regex: text, $options: "i" } },
+            { tags: { $regex: text, $options: "i" } },
+        ],
+    });
+    return result;
 }
 
 export const productServices = {
@@ -30,5 +41,6 @@ export const productServices = {
     getAllProductsFromDB,
     getASingleProductFromDB,
     updateASingleProductInDB,
-    deleteASingleProductFromDB
+    deleteASingleProductFromDB,
+    findAProductUsingTextFromDB
 };

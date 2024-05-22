@@ -19,17 +19,30 @@ const createProduct = async (req: Request, res: Response) => {
 
 const getAllProducts = async (req: Request, res: Response) => {
     try {
-        const result = await productServices.getAllProductsFromDB();
-        // send response
+        const searchTerm = req.query.searchTerm as string;
+        let result;
+
+        if (searchTerm) {
+            result = await productServices.findAProductUsingTextFromDB(searchTerm);
+
+        } else {
+            result = await productServices.getAllProductsFromDB();
+        }
+
         res.status(200).json({
             success: true,
-            message: "Products fetched successfully!",
+            message: searchTerm ? `Products matching search term '${searchTerm}' fetched successfully!` : 'Products fetched successfully!',
             data: result,
         });
     } catch (error) {
-        console.log(error);
+        console.error(error);
+        res.status(500).json({
+            success: false,
+            message: 'An error occurred while fetching products.',
+        });
     }
 };
+
 const getASingleProduct = async (req: Request, res: Response) => {
     try {
         const id = req.params.productId;
@@ -77,6 +90,8 @@ const deleteASingleProduct = async (req: Request, res: Response) => {
         console.log(error);
     }
 }
+
+
 
 export const productController = {
     createProduct,
