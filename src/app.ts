@@ -11,9 +11,12 @@ app.use(cors());
 app.use("/api", productRoutes);
 app.use("/api", orderRouter);
 
-app.get("/", (req: Request, res: Response) => {
-  const a = 3;
-  res.send(a);
+// Catch-all route for handling "Route not found" errors
+app.use((req: Request, res: Response) => {
+  res.status(404).json({
+    success: false,
+    message: "Route not found",
+  });
 });
 
 export default app;
